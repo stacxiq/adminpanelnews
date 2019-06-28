@@ -1,0 +1,131 @@
+
+<nav class="navbar navbar-expand-sm" style="background-color: #74b9ff">
+    <a class="navbar-brand">Admin Panel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-md-start" id="navbarsExample10">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="modal" data-target="#exampleModalCenter">Add News</a>
+          </li>
+        </ul>
+      </div>
+
+  </nav>
+
+      <br><br>
+      <div class="container">
+          <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let item of itemArray">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{item.img}}" style="width: 100%;height: 200px;" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title" style="text-align: center">{{item.title}}</h5>
+                      <p class="card-text" style="text-align: right">{{item.description.substring(0, 200)}}</p>
+
+                    </div>
+                    <div class="card-body">
+                        <a href="#" (click)="asin(item.$key,item)"  data-toggle="modal" data-target="#updateModel" class="card-link">  <i class="fas fa-edit"></i> Edit</a>
+                        <a href="#" (click)="onDelete(item.$key)" class="card-link uk-float-right" > <i class="fas fa-trash"></i> Delete</a>
+                      </div>
+                  </div>
+                  <br><br>
+            </div>
+          </div>
+        </div>
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Add News</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Title</label>
+                          <input type="text" class="form-control" name="title" placeholder="Title"  [(ngModel)]="data.ntitle" #title="ngModel">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Description</label>
+                            <textarea class="form-control" rows="3" name="description"  [(ngModel)]="data.ndescription" #description="ngModel"></textarea>
+                          </div>
+
+                           Upload Image <button (click)="inputupload_image.click()" class="uk-button-default" style="margin-right: 2%;"><img src="https://firebasestorage.googleapis.com/v0/b/mhsite-13864.appspot.com/o/icons%2Fimage.png?alt=media&token=35eee0c7-1fed-4353-8ac5-48a5e11b4fe2"></button>
+                          Or add URL of an image: <br>
+                          <input type="text" class="form-control" name="url"  #title placeholder="Image URL">
+
+                          <br><br>
+        <div *ngIf="v_prog==true">
+          <progress id="js-progressbar" class="uk-progress" value="{{uploadPercent | async}}" max="100"></progress>
+        </div>
+        <div *ngIf="ready==true">
+          Ready For Upload!
+        </div>
+
+        <input #inputupload_image style="display: none;" type="file" id="image_upload_button" (change)="fileEvent_name($event)" (change)="upload($event)" accept=".png,.jpeg,.GIF,.jpg">
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" (click)="addurl(title,description)" class="btn btn-primary">Upload</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <!--Update-->
+
+          <div class="modal fade" id="updateModel" tabindex="-1" role="dialog" aria-labelledby="updateModelTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Update News</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Title</label>
+                          <input type="text" class="form-control" name="ctitle" [(ngModel)]="ctitle" placeholder="Title">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Description</label>
+                            <textarea class="form-control" rows="3" name="cdescription" [(ngModel)]="cdescription" placeholder="Description"></textarea>
+                          </div>
+                          Current Image
+                          <img style="width: 150px;height: 150px;" src="{{cimg}}"><br>
+                          Upload New
+                          <button (click)="inputupload_image.click()" class="uk-button-default" style="margin-right: 2%;"><img src="https://firebasestorage.googleapis.com/v0/b/mhsite-13864.appspot.com/o/icons%2Fimage.png?alt=media&token=35eee0c7-1fed-4353-8ac5-48a5e11b4fe2"></button>
+
+                          <br><br>
+        <div *ngIf="v_prog==true">
+          <progress id="js-progressbar" class="uk-progress" value="{{uploadPercent | async}}" max="100"></progress>
+        </div>
+        <div *ngIf="ready==true">
+          Ready For Upload!
+        </div>
+
+        <input #inputupload_image style="display: none;" type="file" id="image_upload_button" (change)="fileEvent_name($event)" (change)="upload($event)" accept=".png,.jpeg,.GIF,.jpg">
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" (click)="update(ctitle,cdescription)" class="btn btn-primary">Upload</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+      <br><br><br>
+
