@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   firebase: {
     apiKey: 'AIzaSyCLc3vtRULhmV5nNvW6ofXw8Le6NPC1g8o',
     authDomain: 'wechat-2b611.firebaseapp.com',
